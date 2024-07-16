@@ -1,0 +1,944 @@
+
+<style>
+
+    body {
+        margin: 0px;
+        margin-top: 20px;
+        font-family: "Lato", sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: rgb(0, 0, 0);
+    }
+
+    /* setting up flex */
+    .flex {
+        display: flex;
+    }
+
+    .items-center {
+        align-items: center;
+    }
+    
+    .justify-between {
+        justify-content: space-between;
+    }
+
+    .justify-start {
+        justify-content: flex-start;
+    }
+
+
+    .items-end {
+        justify-content: flex-end;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .no-wrap {
+        flex-wrap: nowrap;
+    }
+
+    .justify-center {
+        justify-content: center;
+    }
+
+    /* specific changes */
+    .block {
+        display: block;
+    }
+
+    .dir-column {
+        flex-direction: column;
+    }
+    
+    .text-white {
+        color: white;
+    }
+
+    .relative {
+        position: relative;
+    }
+
+    .absolute {
+        position: absolute;
+    }
+
+    .mx-auto {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .z-hi {
+        z-index: 10;
+    }
+
+    .z-higher {
+        z-index: 15;
+    }
+
+    .social-icons {
+        width: 40px;
+        height: 40px;
+        background-image: url(./imgs/Instagram_Glyph_Gradient.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-left: 30px;
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 10000;
+    }
+
+
+    /* randomized gallery */
+    .fashion{
+        display: flex;
+        /* grid-template-columns: repeat(auto-fill, 200px);
+        grid-auto-rows: 200px;
+        grid-auto-flow: dense; */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .close{
+        background: none;
+        color: white;
+        border: 0;
+        padding:
+    }
+
+    .overlay.open {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        max-width: 100%;
+        height: 100%;
+        z-index: 14;
+    }
+
+    .overlay.open img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .overlay {
+        position: fixed;
+        background: rgba(0,0,0,0.7);
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        display: none;
+        z-index: 2;
+    }
+
+    .fashion .item {
+        object-fit: contain;
+    }
+/* 
+    * {
+        box-sizing: border-box;
+    }
+
+    .item.v2 {
+        grid-row: span 2;
+    }
+
+    .item.v3 {
+        grid-row: span 3;
+    }
+
+    .item.v4 {
+        grid-row: span 4;
+    }
+
+    .item.h2 {
+        grid-column: span 2;
+    }
+
+    .item.h3 {
+        grid-column: span 3;
+    }
+
+    .item.h4 {
+        grid-column: span 4;
+    } */
+
+    .item {
+        overflow-x: scroll;
+        display: flex;
+        min-width: 300px;
+        max-width: 600px;
+        height: 600px;
+        padding: 4px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .item img {
+        /* grid-column: 1 / -1;
+        grid-row: 1 / -1; */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1; 
+        position: relative;
+    }
+
+
+    .item__overlay {
+        background: #16050a83;
+        /* grid-column: 1 / -1;
+        grid-row: 1 / -1; */
+        position: relative;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        transition: 0.2s;
+        transform: translateY(100%);
+    }
+
+    .item__overlay button {
+        background: none;
+        border: 2px solid white;
+        color: white;
+        text-transform: uppercase;
+        padding: 5px;
+        background: rgba (0, 0, 0, 0.7);
+
+    }
+
+    .item:hover .item__overlay {
+        transform: translateY(0);
+    }
+
+    .overlay-inner {
+        background: none;
+        width: 700px;
+        
+    }
+    .name {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 900;
+        color: white;
+        /* margin-bottom: 10px; */
+        margin-top: 20px;
+        font-size: 80px;
+    }
+
+    .about-div {
+        display: flex;
+        flex-direction: row;
+        height: 50%;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(0, 0, 0);
+        max-width: 125%;
+        margin: 20px;
+    }
+
+    .about {
+        color: white;
+        text-align: center;
+        border-bottom: solid 1px rgba(255, 255, 255, 0.411);
+        border-left: solid 1px rgba(255, 255, 255, 0.411);
+        padding: 1%;
+        font-size: 30px;
+        font-weight: 600;
+        max-width: 75%;
+    }
+
+    .r {
+        align-self: flex-end;
+        margin-right: 20%;
+    }
+
+    .l {
+        align-self: flex-start;
+        margin-left: 20%;
+    }
+
+    
+
+    .form-input-sm{
+        background-color: transparent;
+        color: rgb(185, 185, 185);
+        font-style: italic;
+        border: solid 1px white;
+        
+        width: 200px;
+        padding:10px;
+        /* float:right; */
+        width: 100%; /* Ensures inputs take up full width */
+        box-sizing: border-box; /* Ensures padding is included in the width */
+    }
+    .form-input-lg{
+        background-color: transparent;
+        color: rgb(185, 185, 185);
+        font-style: italic;
+        border: none;
+        border: solid 1px white;
+        min-width: 410px;
+        padding: 10px;
+        /* float:right; */
+        width: 100%; /* Ensures inputs take up full width */
+        box-sizing: border-box; /* Ensures padding is included in the width */
+    }
+
+    .contact-button{
+        background-color: white;
+        color: black;
+        align-self: center;   
+        width: 410px;    
+    }
+
+    .form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 5px; /* Adjust as needed */
+    font-size: 16px;
+    }
+
+    textarea {
+        min-height: 200px;
+    }
+
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Apply animation to each paragraph */
+
+    .fade-in {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        will-change: opactiy, visibility;
+    }
+
+    .fade-in.is-visible {
+        opacity: 1;
+        transform: none;
+        visibility: visible;
+    }
+
+    .fade-in.active {
+    opacity: 1;
+    }
+
+    .portfolio-img {
+        width: 25%;
+        height: auto;
+        
+    }
+
+    .ptfl-div {
+        display: flex;
+        height: fit-content;
+        margin: 20px 20px;
+        position: relative;
+    }
+
+    .img-desc {
+        position: absolute;
+        opacity: 0;
+        background-color:rgba(241, 241, 241, 0.801);
+        color: black;
+        bottom: -100%;
+        transition: bottom ease 0.35s;
+        box-sizing: border-box;
+        text-align: center;
+        width: 25%;
+    }
+
+    .ptfl-div:hover .img-desc{
+        bottom: 0;
+        opacity: 1;
+    }
+
+    .down-arrow{
+        opacity: 0;
+        transition: opacity 0.5 ease-in-out;
+        width: 100px;
+        height: 50px;;
+    }
+
+    
+    .abt-title {
+        color: white;
+        font-weight: 700;
+        font-size: 48px;
+        opacity: 0.3;
+        transform: translateX(-1000px);
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .abt-title.visible {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    
+        
+    .abt-slide.visible {
+        opacity: 1;
+        bottom: 0;
+    }
+
+    .section-divider {
+        border: solid 2px white;
+        min-width: 100%;
+        max-width: 125%;
+        margin-right: 30px;
+        margin-left: 30px;
+        position: relative;
+        align-self: center;
+        display: block;
+        margin-bottom: 20px; /* Space between section divider and .about-div */
+    }
+
+    .abt-title-container {
+        display: flex;
+        justify-content: flex-end;
+        margin: 40px;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .about-div {
+        gap: 20px; /* Space between slides */
+        max-width: 100%;
+        height: 90%;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start; /* Align items to the top */
+        margin-top: 20px; 
+        margin-right: 30px;
+        margin-left: 30px;
+        overflow: hidden;
+    }
+
+    .abt-img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .abt-info-slides {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        min-width: 400px;
+        padding: 20px;
+        background-color: #545757;
+        /* background-color: black;
+        border: solid 1px white; */
+    }
+
+    .digis-div {
+    width: 100%; /* Adjust this as needed */
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 10px; /* Space between images */
+    grid-template-areas:
+        "digi1 digi2"
+        "digi3 digi4";
+}
+
+    .digis-div img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+    }
+
+    .digi1 {
+        grid-area: digi1;
+    }
+
+    .digi2 {
+        grid-area: digi2;
+    }
+
+    .digi3 {
+        grid-area: digi3;
+    }
+
+    .digi4 {
+        grid-area: digi4;
+    }
+        
+    .img-scrunchy {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 70%;
+        gap: 10px;
+        
+    }
+
+    .img-scrunchy img {
+        height: auto;
+        width: 50%;
+        object-fit: contain;
+        margin-right: 20px;
+    }
+
+    .img-scrunchy .abt-info-slides {
+        width: 45%;
+        background-color: #545757;
+        padding: 20px;
+    }
+
+    .scrunchy-info {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    
+    .abt-info-slides {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 40%;
+        width: 95%;
+        background-color: rgb(22, 22, 22);
+        font-size: 20px;
+    }
+
+    .abt-slide {
+        margin-top: 20px;
+        opacity: 0;
+        color: white;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        text-align: center;
+        overflow-x: hidden;
+        white-space: nowrap;
+        transform: translateX(20px); /* Start slightly below */
+        margin: 0 auto; /* Center horizontally */
+        font-style: bold;
+        text-align: center;
+        font-weight: 500;
+        font-size: larger;
+        font-family: Arial, Helvetica, sans-serif;
+    }   
+
+    .abt-slide.visible {
+        opacity: 1;
+        transform: translateX(0); /* Slide into place */
+    }
+    
+    
+
+    .measurements {
+        display: flex;
+        flex-direction: column; 
+        text-align: center;
+        justify-content: center;
+        gap: 5px;
+        height: 60%;
+        background-color: #545757;
+        width: 95%;
+        margin: 10px;
+    }
+
+    .measurements h3 {
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .measurements ul {
+        font-size: 25px;
+        gap: 10px;
+        list-style: none;
+        color: white;
+    }
+
+    .measurements li {
+        margin-bottom: 5%;
+    }
+
+</style>
+
+
+
+
+<header>
+    <div class="flex items-center justify-center mx-auto limiter relative z-hi text-white" style = "margin-top:0px;">
+        <img class="hidden">
+        <a href="#portfolio" class="text-white block py-8 px-25 no-ul bold">Portfolio</a>
+        <a href="#contact" class="text-white block py-8 px-25 no-ul bold">Contact</a>
+        <a href="" class="text-white block py-8 px-25 no-ul bold">More</a>
+    </div>
+
+    <div class="flex justify-center items-center text-white name">
+        <!-- <h1 class="name">KEVIN MARESCA</h1> -->
+        <video src="./imgs/KM LOGO FINAL ANIM.mp4" autoplay width="75%" height="auto"></video>
+        <!-- <img src="./imgs/down-arrow.gif" height="10%" autoplay style="position: absolute; bottom:3%; right: 0.5%; height:15%; z-index: 10000;" class="down-arrow"> -->
+    </div>
+
+    <div class="z-hi social-icons">
+        <a href="https://instagram.com/7.witaK" style="position: fixed; top: 20px; right: 20px; z-index: 1000; padding: 30px;"></a>
+    </div>
+
+    
+</header>
+
+<style>
+    .measurements ul li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.measurements ul li.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+<section class="fade-in" style="margin-top:30px;">
+    <div class="abt-title-container">
+        <div class="abt-title" style="order: 0;">ABOUT</div>
+        <hl class="section-divider"></hl>
+    </div>
+   
+    <div class="about-div">
+        <img src="./imgs/DSC00420.jpg" alt="Close-up of Kevin with a scrunched up face" class="abt-img">
+        <div class="scrunchy-info">
+            <div class="abt-info-slides">
+                    <p class="abt-slide"> From Milan, Italy 🇮🇹</p>
+                    <p class="abt-slide"> Actor, Athlete, Engineer, Model</p>
+                    <p class="abt-slide"> <b>Work-locations:</b><br>
+                        Washington DC - New York - Miami - Milan</p>
+                    <p class="abt-slide"> <b>Fluent in:</b><br>
+                        English - Italian - Spanish</p>
+            </div>
+            <div id="compCard" class="measurements" style="padding: 20px;">
+                    <h3 style = ""><u>MEASUREMENTS</u></h3>
+                    <ul style="padding-left: 0;">
+                        <li class="blk-hi">HEIGHT: 6'2" <span>/188cm</span></li>
+                        <li class="blk-hi">CHEST: 42" <span>/107cm</span></li>
+                        <li class="blk-hi">WAIST: 32" <span>/81cm</span></li>
+                        <li class="blk-hi">INSEAM: 32" <span>/81cm</span></li>
+                        <li class="blk-hi">COLLAR: 16" <span>/42cm</span></li>
+                        <li class="blk-hi">SHOE: 10.5 <span>/43</span></li>
+                        <li class="blk-hi">HAIR: Brown</li>
+                        <li class="blk-hi">EYES: Brown</li>
+                    </ul>
+            </div>
+        </div>
+    
+        
+        <div class="digis-div">
+            <img src="./imgs/digi-close.jpg" class="digi1">
+            <img src="./imgs/digi-mid.jpg" class="digi2">
+            <img src="./imgs/digi-profile.jpg" class="digi3">
+            <img src="./imgs/digi-seat.jpg" class="digi4">
+        </div>
+        
+        <!-- <div class="abt-info-slides dir-column" style="text-align: center; order: -1;">
+            <div class="text-white about fade-in abt-slide" style="">
+                From Milan, Italy
+            </div>
+            <div class="text-white about fade-in abt-slide" style="">
+                Living in Washington, DC.
+            </div>
+            <div class="text-white about fade-in abt-slide" style="">
+                actor, model, <a href="https://www.linkedin.com/in/kevin-maresca-565369251" class="abt-links">engineer</a>
+            </div>
+        </div> -->
+        <!-- <p class="text-white about fade-in" style="text-align: center;">
+            I am Kevin Maresca.
+        </p> -->
+        
+    </div>
+
+    <!-- <div class="flex dir-column items-center">
+        <h2 class="fashion-title text-white" style="text-align: center;">Fashion</h2>
+        <div class="fashion">
+        
+            <div class="fashion-slides item">
+                <img src = "./imgs/2.jpg">
+                <div class="item__overlay"></div>
+            </div>
+            <div class="fashion-slides item">
+                <img src = "./imgs/6.jpg">
+                <div class="item__overlay"></div>
+            </div>
+            <div class="fashion-slides item">
+                <img src = "./imgs/4.jpg">
+                <div class="item__overlay"></div>
+            </div>
+            <div class="fashion-slides item">
+                <img src = "./imgs/3.jpg">
+                <div class="item__overlay"></div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="fashion-container">
+        <h2 class="fashion-title">Fashion</h2>
+        <div class="fashion-grid">
+            <div class="fashion-item item1">
+                <img src="./imgs/1.jpg" alt="Fashion 1">
+                <div class="description">Description for image 1</div>
+            </div>
+            <div class="fashion-item item2">
+                <img src="./imgs/2.jpg" alt="Fashion 2">
+                <div class="description">Description for image 2</div>
+            </div>
+            <div class="fashion-item item3">
+                <img src="./imgs/3.jpg" alt="Fashion 3">
+                <div class="description">Description for image 3</div>
+            </div>
+            <div class="fashion-item item4">
+                <img src="./imgs/4.jpg" alt="Fashion 4">
+                <div class="description">Description for image 4</div>
+            </div>
+            <div class="fashion-item item5">
+                <img src="./imgs/5.jpg" alt="Fashion 5">
+                <div class="description">Description for image 5</div>
+            </div>
+            <div class="fashion-item item6">
+                <img src="./imgs/6.jpg" alt="Fashion 6">
+                <div class="description">Description for image 6</div>
+            </div>
+             Optional items 
+            <div class="fashion-item item7">
+                <img src="./imgs/7.jpg" alt="Fashion 7">
+                <div class="description">Description for image 7</div>
+            </div>
+            <div class="fashion-item item8">
+                <img src="./imgs/8.jpg" alt="Fashion 8">
+                <div class="description">Description for image 8</div>
+            </div>
+        </div>
+     -->
+
+</section>
+
+<section>
+    <div class="abt-title" style="order: 0;">PORTFOLIO</div>
+        <hl class="section-divider text-white"></hl>
+    </div>
+    <div class="ptfl-div">
+        <div>
+            <img src="./imgs/fashion2.jpeg" class="portfolio-img">
+            <div class="img-desc">Whatever Show - 02/08/24 <br> The amazing [name] created this</div>
+        </div>
+    </div>
+
+</section>
+<!-- <section>
+    <div class="editorial">
+        <h2 class="editorial-title">Editorial</h2>
+        <div class="editorial-slides"></div>
+    </div>
+</section>
+<section>
+    <div class="commercial">
+        <h2 class="comm-title">Commercial</h2>
+        <div class="comm-slides"></div>
+    </div>
+</section> -->
+
+<section id="contact" style = "max-height: 1000px;">
+    <h2 class="text-white" style="text-align: center">Contact</h2>
+    <p class="block text-white" style="margin-bottom:30px; text-align: center">Please tell me about yourself and your inquiry in the fields below:</p>
+    <div class="flex justify-center">
+        <form class="flex justify-center dir-column">
+            <div class="form-row">
+                <input type="text" id="name" name="name" placeholder="Your Name" class="form-input-sm">
+                <input type="text" id="location" name="name" placeholder="Your Location" class="form-input-sm"> 
+            </div>
+            <div class="form-row">
+                <input type="text" id="socials" name="name" placeholder="Your Socials or Website" class="form-input-lg">
+            </div>
+            <div class="form-row">
+                <textarea type="text" id="inquiry" name="name" placeholder="Your Inquiry"class="form-input-lg"></textarea>
+            </div>
+            <div class="form-row">
+                <input type="text" id="other" name="other" placeholder="Any other info you'd like to share" class="form-input-lg">
+            </div>
+        </form>
+        
+    </div>
+
+
+    <!-- <div class="flex justify-center" style="margin-top: 20px;">
+        <button id="expandCompCard" class="expand-button">+</button>
+    </div>
+    </div> -->
+
+    
+</section>
+
+
+
+
+<footer class="text-white" style="text-align: center; padding: 10px;">
+    &copy; 2024 Kevin Maresca. All Rights Reserved.
+</footer>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    const elements = document.querySelectorAll('.fade-in');
+    let delay = 5;
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.classList.add('active');
+        }, delay);
+        delay += 1500; // Adjust the delay between each paragraph fade-in
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const fadeIns = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing the element once it has faded in
+            }
+        });
+    }, {
+        threshold: 0.1 // Adjust this value to control how much of the element should be visible before the fade-in starts
+    });
+
+    fadeIns.forEach(fadeIn => {
+        observer.observe(fadeIn);
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const image = document.querySelector('.down-arrow');
+    
+    setTimeout(() => {
+        image.style.opacity = 0.8;
+    }, 2500); // 2500 milliseconds = 2.5 seconds
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const title = document.querySelector('.abt-slide');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                title.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once it has slid in
+            }
+        });
+    }, {
+        threshold: 1 // Adjust the threshold as needed
+    });
+
+    observer.observe(title);
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const aboutDiv = document.querySelector('.about-div');
+    const slides = document.querySelectorAll('.abt-slides');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                slides.forEach(slide => slide.classList.add('visible'));
+                observer.unobserve(entry.target); // Stop observing once it's triggered
+            }
+        });
+    }, {
+        threshold: 0.1 // Adjust the threshold as needed
+    });
+
+    observer.observe(aboutDiv);
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const compCardItems = document.querySelectorAll('#compCard .blk-hi');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing the element once it has slid up
+            }
+        });
+    }, {
+        threshold: 0.1 // Adjust this value to control how much of the element should be visible before the slide-up starts
+    });
+
+    compCardItems.forEach((item, index) => {
+        observer.observe(item);
+        item.style.transitionDelay = `${index * 0.2}s`; // Add delay for each item to create iterative effect
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.querySelectorAll('.abt-slide');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once it's visible
+            }
+        });
+    }, {
+        threshold: 0.1 // Adjust this value to control when the animation starts
+    });
+
+    slides.forEach(slide => {
+        observer.observe(slide);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.querySelectorAll('.abt-title');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once it's visible
+            }
+        });
+    }, {
+        threshold: 1 // Adjust this value to control when the animation starts
+    });
+
+    slides.forEach(slide => {
+        observer.observe(slide);
+    });
+});
+</script>
+
+    <!-- need to add the action to the form ----if desired: add rates and resize page
+     <div class="flex mx-auto limiter z-hi justify-center contact-back" style="max-width: 650px; margin: 120px 300px; align-items: center">
+        <form class="flex" style="color:white; max-width: 600px; ">
+            <input type="text" id="name" name="name" placeholder="Your Name" class="form-input-sm">
+            <input type="text" id="name" name="name" placeholder="Your Location" class="form-input-sm">
+            <input type="text" id="name" name="name" placeholder="Your Socials and/or Website" class="form-input-lg">
+            <input type="text" id="name" name="name" placeholder="Your Inquiry" class="form-input-lg" style="min-height: 60px;">
+            <textarea name="text" rows="10" placeholder="Your Inquiry" class="form-input-lg"></textarea>
+            <input type="text" id="name" name="name" placeholder="Any additional information" class="form-input-lg">
+            <br><button class="contact-button bold" style="font-weight: 600;">SUBMIT</button>
+        </form>
+        -->
